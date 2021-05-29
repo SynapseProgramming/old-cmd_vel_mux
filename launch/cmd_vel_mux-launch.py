@@ -34,7 +34,10 @@
 
 import os
 
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 import ament_index_python.packages
+from launch import LaunchDescription
 import launch
 import launch_ros.actions
 
@@ -43,6 +46,8 @@ import yaml
 
 def generate_launch_description():
     share_dir = ament_index_python.packages.get_package_share_directory('cmd_vel_mux')
+
+    joy_dir = ament_index_python.packages.get_package_share_directory('teleop_twist_joy')
     # There are two different ways to pass parameters to a non-composed node;
     # either by specifying the path to the file containing the parameters, or by
     # passing a dictionary containing the key -> value pairs of the parameters.
@@ -52,6 +57,14 @@ def generate_launch_description():
     params_file = os.path.join(share_dir, 'config', 'cmd_vel_mux_params.yaml')
     with open(params_file, 'r') as f:
         params = yaml.safe_load(f)['cmd_vel_mux']['ros__parameters']
+    ld=LaunchDescription()
+
+
+    launch_joy=IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(os.path.join(joy_dir,'launch', 'teleop-launch.py')),
+                launch_arguments={'joy_config': 'xbox'}.items()
+                )
+
 
     cmd_vel_mux_node = launch_ros.actions.Node(
         package='cmd_vel_mux',
@@ -59,5 +72,6 @@ def generate_launch_description():
         output='both',
         parameters=[params]
     )
-
-    return launch.LaunchDescription([cmd_vel_mux_node])
+    ld.add_action(cmd_vel_mux_node)
+    ld.add_action(launch_joy)
+    return ld
