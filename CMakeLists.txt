@@ -19,6 +19,7 @@ find_package(rcpputils REQUIRED)
 find_package(std_msgs REQUIRED)
 
 find_package(action_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 include_directories(include)
 
@@ -41,7 +42,7 @@ target_link_libraries(cmd_vel_mux_node cmd_vel_mux)
 
 add_executable(cancel_goal src/cancel_goal.cpp)
 ament_target_dependencies(cancel_goal
-  rclcpp action_msgs
+  rclcpp action_msgs sensor_msgs
 )
 
 
@@ -57,7 +58,7 @@ install(TARGETS ${PROJECT_NAME}
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION include/${PROJECT_NAME}
 )
-install(TARGETS 
+install(TARGETS
   cmd_vel_mux_node
   cancel_goal
   DESTINATION lib/${PROJECT_NAME}
