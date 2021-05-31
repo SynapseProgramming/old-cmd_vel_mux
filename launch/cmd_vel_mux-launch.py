@@ -65,6 +65,10 @@ def generate_launch_description():
                 launch_arguments={'joy_config': 'xbox'}.items()
                 )
 
+    launch_goal_cancel= launch_ros.actions.Node(
+        package='cmd_vel_mux',
+        executable='cancel_goal'
+        )
 
     cmd_vel_mux_node = launch_ros.actions.Node(
         package='cmd_vel_mux',
@@ -74,4 +78,5 @@ def generate_launch_description():
     )
     ld.add_action(cmd_vel_mux_node)
     ld.add_action(launch_joy)
+    ld.add_action(launch_goal_cancel)
     return ld

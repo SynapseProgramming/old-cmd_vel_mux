@@ -18,6 +18,9 @@ find_package(rclcpp_components REQUIRED)
 find_package(rcpputils REQUIRED)
 find_package(std_msgs REQUIRED)
 
+find_package(action_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+
 include_directories(include)
 
 # Nodelet library
@@ -37,6 +40,13 @@ ament_target_dependencies(cmd_vel_mux_node
 )
 target_link_libraries(cmd_vel_mux_node cmd_vel_mux)
 
+add_executable(cancel_goal src/cancel_goal.cpp)
+ament_target_dependencies(cancel_goal
+  rclcpp action_msgs sensor_msgs
+)
+
+
+
 rclcpp_components_register_nodes(${PROJECT_NAME}
   "cmd_vel_mux::CmdVelMux")
 
@@ -48,7 +58,9 @@ install(TARGETS ${PROJECT_NAME}
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION include/${PROJECT_NAME}
 )
-install(TARGETS cmd_vel_mux_node
+install(TARGETS
+  cmd_vel_mux_node
+  cancel_goal
   DESTINATION lib/${PROJECT_NAME}
 )
 
