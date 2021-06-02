@@ -35,10 +35,9 @@
 import os
 
 from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 import ament_index_python.packages
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch import LaunchDescription
-import launch
 import launch_ros.actions
 
 import yaml
@@ -57,15 +56,15 @@ def generate_launch_description():
     params_file = os.path.join(share_dir, 'config', 'cmd_vel_mux_params.yaml')
     with open(params_file, 'r') as f:
         params = yaml.safe_load(f)['cmd_vel_mux']['ros__parameters']
-    ld=LaunchDescription()
+    ld = LaunchDescription()
 
 
-    launch_joy=IncludeLaunchDescription(
+    launch_joy = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(joy_dir,'launch', 'teleop-launch.py')),
                 launch_arguments={'joy_config': 'xbox'}.items()
                 )
 
-    launch_goal_cancel= launch_ros.actions.Node(
+    launch_goal_cancel = launch_ros.actions.Node(
         package='cmd_vel_mux',
         executable='cancel_goal'
         )
