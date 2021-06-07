@@ -60,7 +60,7 @@ def generate_launch_description():
 
 
     launch_joy = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(os.path.join(joy_dir,'launch', 'teleop-launch.py')),
+                PythonLaunchDescriptionSource(os.path.join(share_dir,'launch', 'teleop_twist.launch.py')),
                 launch_arguments={'joy_config': 'xbox'}.items()
                 )
 
