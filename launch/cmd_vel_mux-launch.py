@@ -66,7 +66,8 @@ def generate_launch_description():
 
     launch_goal_cancel = launch_ros.actions.Node(
         package='cmd_vel_mux',
-        executable='cancel_goal'
+        executable='cancel_goal',
+        parameters=[{'cancel_button': 0}]
         )
 
     cmd_vel_mux_node = launch_ros.actions.Node(
