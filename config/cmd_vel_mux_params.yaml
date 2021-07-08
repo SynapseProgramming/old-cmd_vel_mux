@@ -20,10 +20,15 @@ cmd_vel_mux:
           timeout:     0.1
           priority:    0
           short_desc:  "The default cmd_vel, controllers unaware that we are multiplexing cmd_vel should come here"
+        autodock:
+          topic:       "/autodock/cmd_vel"
+          timeout:     0.5
+          priority:    1
+          short_desc:  "autodock cmd_vel topic"
         navigation_stack:
           topic:       "navigation/cmd_vel"
           timeout:     0.5
-          priority:    1
+          priority:    3
           short_desc:  "Navigation stack controller"
         teleop_control:
           topic:       "joy/cmd_vel"
